@@ -1,24 +1,20 @@
 import os
-from datetime import timedelta
 
-import environ
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-env = environ.Env()
-environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
-
-SECRET_KEY = (
-'django-insecure-@56xgy7m+&wa&7+w)2%7gklgp2bm1nj2puz&jfav72@icqjo^^'
+SECRET_KEY = os.getenv(
+    'SECRET_KEY',
+    default=('django-insecure-@56xgy7m+&wa&7+w)'
+             '2%7gklgp2bm1nj2puz&jfav72@icqjo^^')
 )
-
-DEBUG = True
+DEBUG = False
+ALLOWED_HOSTS = ['*']
+AUTH_USER_MODEL = 'users.CustomUser'
 
 ROOT_URLCONF = 'project.urls'
 WSGI_APPLICATION = 'project.wsgi.application'
-AUTH_USER_MODEL = 'users.CustomUser'
-
-ALLOWED_HOSTS = []
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -28,11 +24,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'django_filters',
     'rest_framework.authtoken',
     'users.apps.UsersConfig',
     'recipes.apps.RecipesConfig',
     'djoser',
+    'django_filters',
+
 ]
 
 MIDDLEWARE = [
@@ -60,15 +57,23 @@ TEMPLATES = [
         },
     },
 ]
-
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
 DATABASES = {
     'default': {
-        'ENGINE': env('ENGINE', default='django.db.backends.postgresql'),
-        'NAME': os.environ.get('DB_NAME'),
-        'USER': os.environ.get('POSTGRES_USER'),
-        'PASSWORD': os.environ.get('POSTGRES_PASSWORD'),
-        'HOST': os.environ.get('DB_HOST'),
-        'PORT': os.environ.get('DB_PORT'),
+        'ENGINE': os.environ.get(
+            'ENGINE',
+            default='django.db.backends.postgresql'
+        ),
+        'NAME': os.environ.get('DB_NAME', default='postgres'),
+        'USER': os.environ.get('POSTGRES_USER', default='postgres'),
+        'PASSWORD': os.environ.get('POSTGRES_PASSWORD', default='postgres'),
+        'HOST': os.environ.get('DB_HOST', default='db'),
+        'PORT': os.environ.get('DB_PORT', default=5432),
     }
 }
 
@@ -99,7 +104,9 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
     ],
-
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend'
+    ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.TokenAuthentication',
     ],
@@ -111,7 +118,7 @@ REST_FRAMEWORK = {
 DJOSER = {
        'LOGIN_FIELD': 'email',
        'SERIALIZERS': {
-           'user_create': 'users.serializers.UserRegistrationSerializer',
+           'user_create': 'users.serializers.CustomUserCreateSerializer',
            'user': 'users.serializers.CustomUserSerializer',
            'current_user': 'users.serializers.CustomUserSerializer',
        },
@@ -123,21 +130,14 @@ DJOSER = {
        },
    }
 
-SIMPLE_JWT = {
-   'ACCESS_TOKEN_LIFETIME': timedelta(days=60),
-   'AUTH_HEADER_TYPES': ('Bearer',),
-}
-
 LANGUAGE_CODE = 'ru'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
-DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-MEDIA_URL = "/media/"
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
