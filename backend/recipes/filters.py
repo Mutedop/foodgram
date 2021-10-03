@@ -7,7 +7,10 @@ from .models import Recipe
 
 
 class IngredientsFilter(FilterSet):
-    name = CharFilter(field_name='name')
+    name = CharFilter(
+        field_name='name',
+        lookup_expr='istartswith'
+    )
 
     class Meta:
         model = Ingredient
@@ -15,30 +18,23 @@ class IngredientsFilter(FilterSet):
 
 
 class RecipesFilter(FilterSet):
-    tags = AllValuesMultipleFilter(field_name='tags__slug')
-    author = CharFilter(field_name='author__id')
-    name = CharFilter(field_name='ingredients__name')
-    is_favorited = BooleanFilter(field_name='favorites__recipe')
-    is_in_shopping_cart = BooleanFilter(field_name='shop_cart__recipe')
+    tags = AllValuesMultipleFilter(field_name='tags__slug', label='Tags')
+    is_favorited = BooleanFilter(method='get_favorite', label='Favorited')
+    is_in_shopping_cart = BooleanFilter(
+        method='get_shopping',
+        label='In shopping cart'
+    )
 
     class Meta:
         model = Recipe
-        fields = [
-            'tags',
-            'author',
-            'ingredients',
-            'is_favorited',
-            'is_in_shopping_cart',
-        ]
+        fields = ('is_favorited', 'author', 'tags', 'is_in_shopping_cart')
 
-    def filter_favorite(self, queryset, _, value):
-        user = self.request.user
-        if value is True:
-            return queryset.filter(favorites__user=user)
-        return queryset
+    def get_favorite(self, queryset, name, value):
+        if value:
+            return Recipe.objects.filter(in_favorite__user=self.request.user)
+        return Recipe.objects.all()
 
-    def filter_shopping_cart(self, queryset, _, value):
-        user = self.request.user
-        if value is True:
-            return queryset.filter(shop_cart__user=user)
-        return queryset
+    def get_shopping(self, queryset, name, value):
+        if value:
+            return Recipe.objects.filter(shoppingcart__user=self.request.user)
+        return Recipe.objects.all()

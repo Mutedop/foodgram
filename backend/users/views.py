@@ -5,6 +5,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from project.paginators import PageNumberPaginatorModified
 from .models import Subscription
 from .serializers import SubscriptionSerializer, ShowSubscriptionSerializer
 
@@ -12,7 +13,7 @@ User = get_user_model()
 
 
 class SubscriptionApiView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = (IsAuthenticated, )
 
     def get(self, request, id):
         data = {
@@ -44,8 +45,9 @@ class SubscriptionApiView(APIView):
 
 class ListSubscriptionViewSet(generics.ListAPIView):
     queryset = User.objects.all()
-    permission_classes = [IsAuthenticated]
+    permission_classes = (IsAuthenticated, )
     serializer_class = ShowSubscriptionSerializer
+    pagination_class = PageNumberPaginatorModified
 
     def get_queryset(self):
         user = self.request.user

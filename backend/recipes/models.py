@@ -7,20 +7,19 @@ User = get_user_model()
 
 class Tag(models.Model):
     name = models.CharField(
-        max_length=200, unique=True, blank=False, null=False,
+        max_length=200, unique=True,
         verbose_name='Название'
     )
     color = models.CharField(
-        max_length=7, unique=True, blank=False, null=False,
-        verbose_name='Цвет'
+        max_length=7, blank=False, null=False,
+        verbose_name='Цвет #hex'
     )
     slug = models.CharField(
-        max_length=200, unique=True, blank=False, null=False,
+        max_length=200, unique=True, null=True,
         verbose_name='Уникальный слаг'
     )
 
     class Meta:
-        ordering = ('name',)
         verbose_name = 'Тег'
         verbose_name_plural = 'Теги'
 
@@ -35,11 +34,11 @@ class Ingredient(models.Model):
     )
     measurement_unit = models.CharField(
         max_length=200, blank=False, null=False,
-        verbose_name='Единицы измерения'
+        verbose_name='Единица измерения'
     )
 
     class Meta:
-        ordering = ('name',)
+        ordering = ('name', )
         verbose_name = 'Ингридиент'
         verbose_name_plural = 'Ингридиенты'
 
@@ -82,7 +81,7 @@ class Recipe(models.Model):
                     verbose_name='Время приготовления (в минутах)')
 
     class Meta:
-        ordering = ('-id',)
+        ordering = ('-id', )
         verbose_name = 'Рецепт'
         verbose_name_plural = 'Рецепты'
 
@@ -116,13 +115,13 @@ class Favorite(models.Model):
     user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
-        related_name='favorite_subscriber',
+        related_name='favorite',
         verbose_name='Пользователь'
     )
     recipe = models.ForeignKey(
         Recipe,
         on_delete=models.CASCADE,
-        related_name='favorite_recipe',
+        related_name='in_favorite',
         verbose_name='Рецепт'
     )
 
@@ -145,11 +144,11 @@ class ShoppingCart(models.Model):
     recipe = models.ForeignKey(
         Recipe,
         on_delete=models.CASCADE,
-        related_name='Рецепт',
+        verbose_name='Рецепт',
     )
 
     class Meta:
         constraints = [models.UniqueConstraint(
-            fields=['recipe', 'user'],
+            fields=['user', 'recipe'],
             name='unique_shopping_cart'
         )]

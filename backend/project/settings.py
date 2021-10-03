@@ -8,10 +8,11 @@ SECRET_KEY = os.getenv(
     default=('django-insecure-@56xgy7m+&wa&7+w)'
              '2%7gklgp2bm1nj2puz&jfav72@icqjo^^')
 )
-DEBUG = False
-ALLOWED_HOSTS = ['*']
-AUTH_USER_MODEL = 'users.CustomUser'
 
+DEBUG = True
+ALLOWED_HOSTS = ['*']
+
+AUTH_USER_MODEL = 'users.User'
 ROOT_URLCONF = 'project.urls'
 WSGI_APPLICATION = 'project.wsgi.application'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
@@ -23,13 +24,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework',
-    'rest_framework.authtoken',
     'users.apps.UsersConfig',
     'recipes.apps.RecipesConfig',
-    'djoser',
+    'rest_framework',
+    'rest_framework.authtoken',
     'django_filters',
-
+    'djoser',
 ]
 
 MIDDLEWARE = [
@@ -57,12 +57,7 @@ TEMPLATES = [
         },
     },
 ]
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#     }
-# }
+
 DATABASES = {
     'default': {
         'ENGINE': os.environ.get(
@@ -72,7 +67,7 @@ DATABASES = {
         'NAME': os.environ.get('DB_NAME', default='postgres'),
         'USER': os.environ.get('POSTGRES_USER', default='postgres'),
         'PASSWORD': os.environ.get('POSTGRES_PASSWORD', default='postgres'),
-        'HOST': os.environ.get('DB_HOST', default='db'),
+        'HOST': os.environ.get('DB_HOST', default='localhost'),
         'PORT': os.environ.get('DB_PORT', default=5432),
     }
 }
@@ -112,7 +107,7 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_PAGINATION_CLASS':
         'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 10
+    'PAGE_SIZE': 6
 }
 
 DJOSER = {
@@ -130,7 +125,7 @@ DJOSER = {
        },
    }
 
-LANGUAGE_CODE = 'ru'
+LANGUAGE_CODE = 'ru-en'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_L10N = True

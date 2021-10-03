@@ -12,15 +12,15 @@ class UserAdmin(admin.ModelAdmin):
         'id', 'username', 'email',
         'first_name', 'last_name', 'is_staff'
     )
-    list_filter = ('email', 'first_name',)
-    search_fields = ('email', 'username',)
+    list_filter = ('email', 'first_name', )
+    search_fields = ('email', 'username', )
 
 
 @admin.register(Subscription)
 class SubscriptionAdmin(admin.ModelAdmin):
-    list_display = ('user', 'author')
-    list_filter = ('user', 'author',)
-    search_fields = ('user', 'author',)
+    list_display = ('user', 'following')
+    list_filter = ('user', 'following', )
+    search_fields = ('user', 'following', )
     empty_value_display = '-empty-'
 
 

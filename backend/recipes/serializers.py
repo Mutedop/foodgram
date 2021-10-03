@@ -62,7 +62,7 @@ class RecipeSerializer(serializers.ModelSerializer):
         fields = (
             'id', 'tags', 'author', 'ingredients',
             'name', 'image', 'text', 'cooking_time',
-            'is_favorited', 'is_in_shopping_cart'
+            'is_favorited', 'is_in_shopping_cart',
         )
 
     def get_ingredients(self, obj):
@@ -105,6 +105,15 @@ class CreateRecipeSerializer(serializers.ModelSerializer):
         model = Recipe
         fields = ['id', 'tags', 'author', 'ingredients', 'name',
                   'image', 'text', 'cooking_time']
+
+    def validate_ingredients(self, data):
+        ingredients = self.initial_data.get('ingredients')
+        if ingredients == [None]:
+            raise ValidationError('Из солнечной энергии, готовить будем мы?')
+        for ingredient in ingredients:
+            if int(ingredient['amount']) <= 0:
+                raise ValidationError('Достать обратно?')
+        return data
 
     def add_recipe_ingredients(self, ingredients, recipe):
         for ingredient in ingredients:

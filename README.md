@@ -1,24 +1,21 @@
-# praktikum_new_diplom
+##Foodgram
+«Продуктовый помощник».
 
-- перебить текст валиков на нормальный
+Онлайн-сервис c API для него.
 
-Проект запустится на адресе http://localhost
-
-API вы сможете по адресу http://localhost/api/docs/
-
-- косяки на запросах апи
-- картинку отдельной базой на фаил
-- раскидать ооп классов рецептов
-- админка
-- чек вербосы
-- первым отправить код на Ревью, датасерв не собирать
-
+На этом сервисе пользователи могут публиковать рецепты,
+подписываться на публикации других пользователей,
+добавлять понравившиеся рецепты в список «Избранное»,
+а перед походом в магазин скачивать сводный список продуктов,
+необходимых для приготовления одного или нескольких выбранных блюд.
 
 
 sudo docker-compose exec backend python manage.py migrate --noinput
+
 sudo docker-compose exec backend python manage.py createsuperuser
+
 sudo docker-compose exec backend python manage.py collectstatic --no-input
 
-sudo docker-compose exec -it backend bash python manage.py dumpdata > ingredients.json
-sudo docker-compose exec backend python manage.py loaddata ingredients.json
-sudo docker-compose exec backend python manage.py loaddata tags.json
+
+
+

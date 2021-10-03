@@ -8,7 +8,7 @@ User = get_user_model()
 
 
 class CustomUserSerializer(UserSerializer):
-    is_subscribed = serializers.SerializerMethodField(read_only=True)
+    is_subscribed = serializers.SerializerMethodField()
 
     class Meta:
         model = User
@@ -24,7 +24,7 @@ class CustomUserSerializer(UserSerializer):
             return False
         return Subscription.objects.filter(
             user=self.context['request'].user,
-            author=obj
+            following=obj
         ).exists()
 
 
@@ -69,38 +69,30 @@ class SubscriptionRecipeSerializer(serializers.ModelSerializer):
 
 
 class ShowSubscriptionSerializer(serializers.ModelSerializer):
+    is_subscribed = serializers.SerializerMethodField()
     recipes = serializers.SerializerMethodField()
     recipes_count = serializers.SerializerMethodField()
-    is_subscribed = serializers.SerializerMethodField()
 
     class Meta:
         model = User
-        fields = ['email', 'id', 'username', 'first_name', 'last_name',
-                  'is_subscribed', 'recipes', 'recipes_count']
-        read_only_fields = fields
-
-    def get_recipes(self, obj):
-        request = self.context.get('request')
-        recipes_limit = request.query_params.get('recipes_limit')
-        if recipes_limit is not None:
-            recipes = obj.recipes.all()[:(int(recipes_limit))]
-        else:
-            recipes = obj.recipes.all()
-        context = {'request': request}
-        return ShowSubscriptionSerializer(
-            recipes,
-            many=True,
-            context=context
-        ).data
+        fields = ['email', 'id', 'username', 'first_name',
+                  'last_name', 'is_subscribed', 'recipes',
+                  'recipes_count']
 
     def get_is_subscribed(self, obj):
         request = self.context.get('request')
-        if not request or request.user.is_anonymous:
+        if request is None or request.user.is_anonymous:
             return False
-        return obj.follower.filter(
-            user=obj,
-            following=request.user
+        return Subscription.objects.filter(
+            user=request.user, following=obj
         ).exists()
 
+    def get_recipes(self, obj):
+        recipes = Recipe.objects.filter(author=obj)
+        return SubscriptionRecipeSerializer(
+            recipes, many=True
+        ).data
+
     def get_recipes_count(self, obj):
-        return obj.recipes.count()
+        queryset = Recipe.objects.filter(author=obj)
+        return queryset.count()
