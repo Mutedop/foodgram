@@ -9,7 +9,7 @@ SECRET_KEY = os.getenv(
              '2%7gklgp2bm1nj2puz&jfav72@icqjo^^')
 )
 
-DEBUG = True
+DEBUG = False
 ALLOWED_HOSTS = ['*']
 
 AUTH_USER_MODEL = 'users.User'
