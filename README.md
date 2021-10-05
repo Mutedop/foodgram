@@ -37,7 +37,7 @@ log: admin@admin.com
 
 pass: admin
 ___
-deploy error
+deploy error .
     sudo rm .env
     touch .env
     echo DB_ENGINE=${{ secrets.DB_ENGINE }} >> .env
