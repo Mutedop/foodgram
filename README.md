@@ -33,11 +33,16 @@ sudo docker-compose exec backend python manage.py loaddata fixtures/tags.json --
 
 sudo docker-compose exec backend python manage.py createsuperuser
 ___
+https://hub.docker.com/repository/docker/mutedop/foodgram_backend
+___
 log: admin@admin.com
 
 pass: admin
 ___
 deploy error .
+
+err: build path /home/backend either does not exist, is not accessible, or is not a valid URL.
+___
     sudo rm .env
     touch .env
     echo DB_ENGINE=${{ secrets.DB_ENGINE }} >> .env
