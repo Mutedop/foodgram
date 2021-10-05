@@ -61,7 +61,7 @@ TEMPLATES = [
 DATABASES = {
     'default': {
         'ENGINE': os.environ.get(
-            'ENGINE',
+            'DB_ENGINE',
             default='django.db.backends.postgresql'
         ),
         'NAME': os.environ.get('DB_NAME', default='foodgram'),
