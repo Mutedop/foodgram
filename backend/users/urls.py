@@ -1,5 +1,6 @@
 from django.urls import path, include
 from djoser import views
+
 from users.views import SubscriptionApiView, ListSubscriptionViewSet
 
 urlpatterns = [

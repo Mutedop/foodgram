@@ -1,9 +1,10 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
 from rest_framework.serializers import ValidationError
+
 from users.serializers import CustomUserSerializer
 from .fields import Base64ImageField
-from .models import (Ingredient, Tag, RecipeIngredients,
+from .models import (Ingredient, Tag, RecipeIngredient,
                      Recipe, Favorite, ShoppingCart)
 
 User = get_user_model()
@@ -28,11 +29,11 @@ class AddIngredientsSerializer(serializers.ModelSerializer):
     amount = serializers.IntegerField()
 
     class Meta:
-        model = RecipeIngredients
+        model = RecipeIngredient
         fields = ['id', 'amount']
 
 
-class ShowRecipeIngredientsSerializer(serializers.ModelSerializer):
+class ShowRecipeIngredientSerializer(serializers.ModelSerializer):
     id = serializers.ReadOnlyField(source='ingredient.id')
     name = serializers.ReadOnlyField(source='ingredient.name')
     measurement_unit = serializers.ReadOnlyField(
@@ -40,7 +41,7 @@ class ShowRecipeIngredientsSerializer(serializers.ModelSerializer):
     )
 
     class Meta:
-        model = RecipeIngredients
+        model = RecipeIngredient
         fields = ['id', 'name', 'measurement_unit', 'amount']
 
 
@@ -66,8 +67,8 @@ class RecipeSerializer(serializers.ModelSerializer):
         )
 
     def get_ingredients(self, obj):
-        ingredients = RecipeIngredients.objects.filter(recipe=obj)
-        return ShowRecipeIngredientsSerializer(
+        ingredients = RecipeIngredient.objects.filter(recipe=obj)
+        return ShowRecipeIngredientSerializer(
             ingredients,
             many=True
         ).data
@@ -108,37 +109,63 @@ class CreateRecipeSerializer(serializers.ModelSerializer):
 
     def validate_ingredients(self, data):
         ingredients = self.initial_data.get('ingredients')
-        if ingredients == [None]:
-            raise ValidationError('Из солнечной энергии, готовить будем мы?')
+        ingredients_list = []
+        if not ingredients:
+            raise serializers.ValidationError('Нужен ингредиент')
         for ingredient in ingredients:
-            if int(ingredient['amount']) <= 0:
-                raise ValidationError('Достать обратно?')
+            try:
+                amount = int(ingredient.get('amount'))
+            except ValueError:
+                raise serializers.ValidationError(
+                    'Количество числом нужно нам'
+                )
+            if amount <= 0:
+                raise ValidationError(
+                    'Количесвто от "0", или достьать обратно?'
+                )
+            elif ingredient['id'] in ingredients_list:
+                raise serializers.ValidationError(
+                    'Есть повторение в ингредиентах, а если это соль?'
+                )
+            else:
+                ingredients_list.append(ingredient['id'])
+        return data
+
+    def validate_tags(self, data):
+        tags = self.initial_data.get('tags')
+        tags_pk = dict()
+        for item in tags:
+            pk = item
+            if pk in tags_pk:
+                raise serializers.ValidationError('Тег такой уже имеем')
+            tags_pk[pk] = 0
+        if len(tags) == 0:
+            raise serializers.ValidationError('Мне нужен Тег')
+        return data
+
+    def validate_cooking_time(self, data):
+        if data < 1:
+            raise ValidationError(
+                'У нас 1440 минут на эти сутки, '
+                'хоть минутку мы потратили на готовку?'
+            )
         return data
 
     def add_recipe_ingredients(self, ingredients, recipe):
         for ingredient in ingredients:
             amount = ingredient['amount']
             ingredient_id = ingredient['id']
-            if RecipeIngredients.objects.filter(
+            if RecipeIngredient.objects.filter(
                     recipe=recipe,
                     ingredient=ingredient_id
             ).exists():
                 amount += 1
-            RecipeIngredients.objects.update_or_create(
+            RecipeIngredient.objects.update_or_create(
                 recipe=recipe,
                 ingredient=ingredient_id,
                 defaults={
                     'amount': amount
                 })
-
-    def validate_ingredients(self, data):
-        ingredients = self.initial_data.get('ingredients')
-        if ingredients == [None]:
-            raise ValidationError('Из солнечной энергии, готовить будем мы?')
-        for ingredient in ingredients:
-            if int(ingredient['amount']) <= 0:
-                raise ValidationError('Достать обратно?')
-        return data
 
     def create(self, validated_data):
         author = self.context.get('request').user

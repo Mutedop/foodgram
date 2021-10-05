@@ -11,7 +11,7 @@ class Tag(models.Model):
         verbose_name='Название'
     )
     color = models.CharField(
-        max_length=7, blank=False, null=False,
+        max_length=7,
         verbose_name='Цвет #hex'
     )
     slug = models.CharField(
@@ -29,11 +29,11 @@ class Tag(models.Model):
 
 class Ingredient(models.Model):
     name = models.CharField(
-        max_length=200, blank=False, null=False,
+        max_length=200,
         verbose_name='Название'
     )
     measurement_unit = models.CharField(
-        max_length=200, blank=False, null=False,
+        max_length=200,
         verbose_name='Единица измерения'
     )
 
@@ -55,30 +55,28 @@ class Recipe(models.Model):
     )
     ingredients = models.ManyToManyField(
         Ingredient,
-        through='RecipeIngredients'
+        through='RecipeIngredient',
     )
     tags = models.ManyToManyField(
         Tag,
-        related_name='tags_recipes',
+        related_name='recipes',
         verbose_name='Список тегов'
     )
     image = models.ImageField(
         upload_to='recipes/',
-        blank=False, null=False,
         verbose_name='Картинка'
     )
     name = models.CharField(
         max_length=200,
-        blank=False, null=False,
         verbose_name='Название'
     )
     text = models.TextField(
-        blank=False, null=False,
         verbose_name='Описание'
     )
     cooking_time = models.PositiveIntegerField(
-                    validators=[MinValueValidator(1)],
-                    verbose_name='Время приготовления (в минутах)')
+        validators=[MinValueValidator(1)],
+        verbose_name='Время приготовления (в минутах)'
+    )
 
     class Meta:
         ordering = ('-id', )
@@ -89,14 +87,16 @@ class Recipe(models.Model):
         return self.name
 
 
-class RecipeIngredients(models.Model):
+class RecipeIngredient(models.Model):
     recipe = models.ForeignKey(
         Recipe,
+        related_name='shopping_list',
         on_delete=models.CASCADE
     )
     ingredient = models.ForeignKey(
         Ingredient,
         on_delete=models.PROTECT,
+        related_name='ingredients',
         verbose_name='Список ингредиентов'
     )
     amount = models.PositiveIntegerField(
@@ -130,7 +130,7 @@ class Favorite(models.Model):
             fields=['user', 'recipe'],
             name='unique_favorite_recipe'
         )]
-        ordering = ('-id',)
+        ordering = ('-id', )
         verbose_name = 'Избранное'
         verbose_name_plural = 'Избранное'
 

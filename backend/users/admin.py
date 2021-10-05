@@ -22,6 +22,3 @@ class SubscriptionAdmin(admin.ModelAdmin):
     list_filter = ('user', 'following', )
     search_fields = ('user', 'following', )
     empty_value_display = '-empty-'
-
-
-

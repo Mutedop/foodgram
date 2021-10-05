@@ -9,8 +9,8 @@ from rest_framework.response import Response
 from project.paginators import PageNumberPaginatorModified
 from .filters import IngredientsFilter
 from .filters import RecipesFilter
-from .models import Ingredient, Tag, Recipe, Favorite, RecipeIngredients, \
-    ShoppingCart
+from .models import (Ingredient, Tag, Recipe, Favorite,
+                     RecipeIngredient, ShoppingCart)
 from .permissions import IsAuthorOrAdmin
 from .serializers import (IngredientsSerializer, TagsSerializer,
                           RecipeSerializer, CreateRecipeSerializer,
@@ -112,20 +112,20 @@ class RecipeViewSet(viewsets.ModelViewSet):
         user = request.user
         shopping_cart = user.shopping_cart.all()
         ingredients_list = {}
-        for item in shopping_cart:
-            recipe = item.recipe
-            ingredients = RecipeIngredients.objects.filter(recipe=recipe)
-            for ingredient in ingredients:
-                amount = ingredient.amount
-                name = ingredient.ingredient.name
-                measurement_unit = ingredient.ingredient.measurement_unit
-                if name not in ingredients_list:
-                    ingredients_list[name] = {
-                        'measurement_unit': measurement_unit,
-                        'amount': amount
-                    }
-                else:
-                    ingredients_list[name]['amount'] += amount
+        ingredients = RecipeIngredient.objects.filter(
+            recipe__in=shopping_cart.values_list('recipe')
+        )
+        for ingredient in ingredients:
+            amount = ingredient.amount
+            name = ingredient.ingredient.name
+            measurement_unit = ingredient.ingredient.measurement_unit
+            if name not in ingredients_list:
+                ingredients_list[name] = {
+                    'measurement_unit': measurement_unit,
+                    'amount': amount
+                }
+            else:
+                ingredients_list[name]['amount'] += amount
 
         shopping_cart = []
         for item in ingredients_list:

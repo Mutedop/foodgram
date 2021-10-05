@@ -2,8 +2,7 @@ from django_filters.rest_framework import (BooleanFilter,
                                            CharFilter, FilterSet,
                                            AllValuesMultipleFilter)
 
-from .models import Ingredient
-from .models import Recipe
+from .models import Ingredient, Recipe
 
 
 class IngredientsFilter(FilterSet):
