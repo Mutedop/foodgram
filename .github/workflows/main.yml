@@ -34,7 +34,7 @@ jobs:
           username: ${{ secrets.USER }}
           key: ${{ secrets.SSH_KEY }}
           script: |
-            sudo docker pull mutedop/foodgram_backend:latest
+            sudo docker pull ${{ secrets.DOCKER_USERNAME }}/foodgram_backend:latest
             sudo docker-compose stop
             sudo docker-compose rm backend
             sudo docker-compose -f docker-compose.yml up -d
