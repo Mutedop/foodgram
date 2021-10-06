@@ -51,3 +51,5 @@ ___
     echo POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }} >> .env
     echo DB_HOST=${{ secrets.DB_HOST }} >> .env
     echo DB_PORT=${{ secrets.DB_PORT }} >> .env
+___
+
