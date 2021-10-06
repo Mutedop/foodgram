@@ -54,11 +54,10 @@ class SubscriptionSerializer(serializers.ModelSerializer):
                 user=user,
                 following__id=following_id
         ).exists():
-            raise serializers.ValidationError('Уже в подписке! =)')
+            raise serializers.ValidationError('Уже в подписке')
         if user.id == following_id:
             raise serializers.ValidationError(
-                'Нравься себе - это здорово! =) '
-                'Но подписаться на себя, здесь, нельзя. =('
+                'Попытка подписаться на себя'
             )
         return data
 

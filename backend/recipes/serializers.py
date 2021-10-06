@@ -117,15 +117,15 @@ class CreateRecipeSerializer(serializers.ModelSerializer):
                 amount = int(ingredient.get('amount'))
             except ValueError:
                 raise serializers.ValidationError(
-                    'Количество числом нужно нам'
+                    'Количество нужно указать числом'
                 )
             if amount <= 0:
                 raise ValidationError(
-                    'Количесвто от "0", или достьать обратно?'
+                    'Количество нужно больше "0"'
                 )
             elif ingredient['id'] in ingredients_list:
                 raise serializers.ValidationError(
-                    'Есть повторение в ингредиентах, а если это соль?'
+                    'Есть повторение в ингредиентах'
                 )
             else:
                 ingredients_list.append(ingredient['id'])
@@ -137,17 +137,16 @@ class CreateRecipeSerializer(serializers.ModelSerializer):
         for item in tags:
             pk = item
             if pk in tags_pk:
-                raise serializers.ValidationError('Тег такой уже имеем')
+                raise serializers.ValidationError('Повторение Тега')
             tags_pk[pk] = 0
         if len(tags) == 0:
-            raise serializers.ValidationError('Мне нужен Тег')
+            raise serializers.ValidationError('Нужен Тег')
         return data
 
     def validate_cooking_time(self, data):
         if data < 1:
             raise ValidationError(
-                'У нас 1440 минут на эти сутки, '
-                'хоть минутку мы потратили на готовку?'
+                'Нужно указать время в минутах'
             )
         return data
 
@@ -224,7 +223,7 @@ class FavouriteSerializer(serializers.ModelSerializer):
                 user=user,
                 recipe__id=recipe_id
         ).exists():
-            raise ValidationError('^ Есть такой рецепт ^')
+            raise ValidationError('Повторение рецепта')
         return data
 
     def to_representation(self, instance):
@@ -256,7 +255,7 @@ class ShoppingCartSerializer(serializers.ModelSerializer):
                 user=user,
                 recipe__id=recipe_id
         ).exists():
-            raise ValidationError('$ Уже добавлен в покупки $')
+            raise ValidationError('Уже добавлен в покупки')
         return data
 
     def to_representation(self, instance):
