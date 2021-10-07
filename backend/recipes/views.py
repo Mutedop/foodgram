@@ -110,17 +110,16 @@ class RecipeViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, permission_classes=[IsAuthenticated])
     def download_shopping_cart(self, request):
+        ingredients = ShoppingCart.objects.filter(user=request.user).values(
+            'recipe__ingredients__name',
+            'recipe__ingredients__measurement_unit'
+        ).annotate(total=Sum('recipe__recipe_ingredient__amount'))
         ingredients_list = {}
-        ingredients = RecipeIngredient.objects.filter(
-            recipe__author=request.user
-        ).values_list(
-            'ingredient__name', 'amount', 'ingredient__measurement_unit'
-        ).values(
-            'ingredient__name', 'ingredient__measurement_unit'
-        ).annotate(total=Sum('amount'))
         for ingredient in ingredients:
-            name = ingredient['ingredient__name']
-            measurement_unit = ingredient['ingredient__measurement_unit']
+            name = ingredient['recipe__ingredients__name']
+            measurement_unit = ingredient[
+                'recipe__ingredients__measurement_unit'
+            ]
             amount = ingredient['total']
             ingredients_list[name] = {
                 'measurement_unit': measurement_unit,

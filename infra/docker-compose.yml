@@ -9,7 +9,9 @@ services:
     restart: always
 
   backend:
-    image: mutedop/foodgram_backend:latest
+    build:
+      context: ../backend
+      dockerfile: Dockerfile
     volumes:
       - static_value:/code/static/
       - media_value:/code/media/
