@@ -152,3 +152,5 @@ class ShoppingCart(models.Model):
             fields=['user', 'recipe'],
             name='unique_shopping_cart'
         )]
+        verbose_name = 'Список покупок'
+        verbose_name_plural = 'Списки покупок'
