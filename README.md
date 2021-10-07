@@ -39,7 +39,7 @@ log: admin@admin.com
 
 pass: admin
 ___
-deploy error . . 
+deploy error . . . 
 
 err: build path /home/backend either does not exist, is not accessible, or is not a valid URL.
 ___
