@@ -11,7 +11,7 @@ from project.paginators import PageNumberPaginatorModified
 from .filters import IngredientsFilter
 from .filters import RecipesFilter
 from .models import (Ingredient, Tag, Recipe, Favorite,
-                     RecipeIngredient, ShoppingCart)
+                     ShoppingCart)
 from .permissions import IsAuthorOrAdmin
 from .serializers import (IngredientsSerializer, TagsSerializer,
                           RecipeSerializer, CreateRecipeSerializer,
