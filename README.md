@@ -1,4 +1,4 @@
-Foodgram
+## Foodgram
 
 «Продуктовый помощник».
 ___
@@ -10,8 +10,8 @@ ___
 а перед походом в магазин скачивать сводный список продуктов,\
 необходимых для приготовления одного или нескольких выбранных блюд.
 ___
-- Для проверки
-- [62.84.122.28](62.84.122.28)
+- Для проверки\
+[62.84.122.28](62.84.122.28)
 ___
     log:   admin@admin.com          \|/   pass_admin:   admin
     user1: userone@userone.com      \|/   pass_user1:   testserv1
@@ -19,7 +19,7 @@ ___
     user3: userthree@userthree.com  \|/   pass_user3:   testserv3
 ___
 ___
-####Для запуска
+#### Для запуска
 - Склонировать репозиторий
     >[foodgram](https://github.com/Mutedop/foodgram-project-react)
 
@@ -81,7 +81,7 @@ https://hub.docker.com/repository/docker/mutedop/foodgram_backend
 
 https://hub.docker.com/repository/docker/mutedop/foodgram_frontend
 
-- ###[Сам сервер](62.84.122.28)
+### [Сам сервер](62.84.122.28)
 >62.84.122.28
 
 
