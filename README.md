@@ -1,6 +1,8 @@
 ## [Foodgram](62.84.122.28)
 
 «Продуктовый помощник».
+
+![example workflow](https://github.com/mutedop/foodgram-project-react/actions/workflows/main.yml/badge.svg)
 ___
 Онлайн-сервис c API для него.
 ___
