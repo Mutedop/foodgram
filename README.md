@@ -35,13 +35,10 @@ sudo docker-compose exec backend python manage.py createsuperuser
 ___
 https://hub.docker.com/repository/docker/mutedop/foodgram_backend
 ___
-log: admin@admin.com
-
-pass: admin
-___
-deploy error . . . 
-
-err: build path /home/backend either does not exist, is not accessible, or is not a valid URL.
+log: admin@admin.com \|/ pass: admin\
+user1: userone@userone.com \|/ pass_user1: testserv1\
+user2: usertwo@usertwo.com \|/ pass_user2: testserv2\
+user3: userthree@userthree.com \|/ pass_user3: testserv3
 ___
     sudo rm .env
     touch .env
