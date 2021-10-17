@@ -12,15 +12,6 @@ ___
 а перед походом в магазин скачивать сводный список продуктов,\
 необходимых для приготовления одного или нескольких выбранных блюд.
 ___
-- Для проверки\
-[62.84.122.28](62.84.122.28)
-___
-    log:   admin@admin.com          \|/   pass_admin:   admin
-    user1: userone@userone.com      \|/   pass_user1:   testserv1
-    user2: usertwo@usertwo.com      \|/   pass_user2:   testserv2
-    user3: userthree@userthree.com  \|/   pass_user3:   testserv3
-___
-___
 #### Для запуска
 - Склонировать репозиторий
     >[foodgram](https://github.com/Mutedop/foodgram-project-react)
