@@ -2,7 +2,6 @@
 
 «Продуктовый помощник».
 
-![example workflow](https://github.com/mutedop/foodgram-project-react/actions/workflows/main.yml/badge.svg)
 ___
 Онлайн-сервис c API для него.
 ___
@@ -12,6 +11,7 @@ ___
 а перед походом в магазин скачивать сводный список продуктов,\
 необходимых для приготовления одного или нескольких выбранных блюд.
 ___
+![/](forgit/home_page.png)
 #### Для запуска
 - Склонировать репозиторий
     >[foodgram](https://github.com/Mutedop/foodgram-project-react)
@@ -73,10 +73,12 @@ ___
 https://hub.docker.com/repository/docker/mutedop/foodgram_backend
 
 https://hub.docker.com/repository/docker/mutedop/foodgram_frontend
+___
+####FOR MORE
+___
 
-### [Сам сервер](62.84.122.28)
->62.84.122.28
-
-
-
-
+![admin](forgit/admin_panel.png)
+![create](forgit/create_recipe.png)
+![ingredients](forgit/ingredients.png)
+![recipe](forgit/recipe.png)
+![register](forgit/register.png)
