@@ -74,7 +74,7 @@ https://hub.docker.com/repository/docker/mutedop/foodgram_backend
 
 https://hub.docker.com/repository/docker/mutedop/foodgram_frontend
 ___
-####FOR MORE
+#### FOR MORE
 ___
 
 ![admin](.github/forgit/admin_panel.png)
