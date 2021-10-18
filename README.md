@@ -11,7 +11,10 @@ ___
 а перед походом в магазин скачивать сводный список продуктов,\
 необходимых для приготовления одного или нескольких выбранных блюд.
 ___
+![example workflow](https://github.com/mutedop/foodgram-project-react/actions/workflows/main.yml/badge.svg)
+___
 ![/](.github/forgit/home_page.png)
+___
 #### Для запуска
 - Склонировать репозиторий
     >[foodgram](https://github.com/Mutedop/foodgram-project-react)
