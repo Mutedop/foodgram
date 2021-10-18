@@ -2,6 +2,8 @@
 
 «Продуктовый помощник».
 
+![example workflow](https://github.com/mutedop/foodgram-project-react/actions/workflows/main.yml/badge.svg)
+
 ___
 Онлайн-сервис c API для него.
 ___
@@ -11,7 +13,6 @@ ___
 а перед походом в магазин скачивать сводный список продуктов,\
 необходимых для приготовления одного или нескольких выбранных блюд.
 ___
-![example workflow](https://github.com/mutedop/foodgram-project-react/actions/workflows/main.yml/badge.svg)
 ___
 ![/](.github/forgit/home_page.png)
 ___
