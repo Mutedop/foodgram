@@ -11,7 +11,7 @@ ___
 а перед походом в магазин скачивать сводный список продуктов,\
 необходимых для приготовления одного или нескольких выбранных блюд.
 ___
-![/](forgit/home_page.png)
+![/](.github/forgit/home_page.png)
 #### Для запуска
 - Склонировать репозиторий
     >[foodgram](https://github.com/Mutedop/foodgram-project-react)
@@ -77,8 +77,8 @@ ___
 ####FOR MORE
 ___
 
-![admin](forgit/admin_panel.png)
-![create](forgit/create_recipe.png)
-![ingredients](forgit/ingredients.png)
-![recipe](forgit/recipe.png)
-![register](forgit/register.png)
+![admin](.github/forgit/admin_panel.png)
+![create](.github/forgit/create_recipe.png)
+![ingredients](.github/forgit/ingredients.png)
+![recipe](.github/forgit/recipe.png)
+![register](.github/forgit/register.png)

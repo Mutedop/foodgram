@@ -2,9 +2,7 @@
 __pycache__/
 *.py[cod]
 *$py.class
-forgit
-.forgit
-forgit/
+
 # C extensions
 *.so
 
